@@ -2,6 +2,27 @@ import { getGenreById } from './themoviedb-api-service';
 
 const IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
 
+//
+export async function markupSearch(filmList, gallery) {
+  const markup = filmList.reduce(
+    (acc, { poster_path, release_date, genre_ids, id, title }) => {
+      const genreString = getGenreById(genre_ids);
+      return (acc += `<div class="film-box" data-id="${id}">
+      <img class="filmoteka__img" src="${IMAGE_URL}${poster_path}"  alt="${title}">
+      <p class="filmoteka__title"> ${title}</p>
+<div  class="filmoteka__box">
+      <p class="filmoteka__text"> ${genreString}</p>
+      <p class="filmoteka__text">&nbsp;|&nbsp; ${parseInt(release_date)}</p>
+      </div>
+      </div>`);
+    },
+    ``
+  );
+  gallery.innerHTML = markup;
+}
+
+//
+
 export async function markupTrending(filmList, gallery) {
   const markup = filmList.reduce(
     (acc, { poster_path, release_date, genre_ids, id, title }) => {
@@ -11,9 +32,7 @@ export async function markupTrending(filmList, gallery) {
       <p class="filmoteka__title"> ${title}</p>
 <div  class="filmoteka__box">
       <p class="filmoteka__text"> ${genreString}</p>
-      <p class="filmoteka__text">             &nbsp;|&nbsp; ${parseInt(
-        release_date
-      )}</p>
+      <p class="filmoteka__text">&nbsp;|&nbsp; ${parseInt(release_date)}</p>
       </div>
       </div>`);
     },

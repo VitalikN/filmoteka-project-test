@@ -9,10 +9,23 @@
 eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNTU1NDJlY2I2YWFiM2Q4ODlkMTY5NTNlYWM4MjkzNyIsInN1YiI6IjYzY2NmY2QxOWE2NDM1MDBhZTAzODI3YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ZrJwlyhckYNnJMhcHP9AOOvED0EU5i-2cuiwVbINE00
  */
 
+// const API_KEY = '1174e437242bb46ea8831e578adaacd1'
 const API_KEY = 'e55542ecb6aab3d889d16953eac82937';
 const URL = 'https://api.themoviedb.org/3';
 const QUERY_TRENDING = '/trending/movie/week';
 const QUERY_GENRE = '/genre/movie/list';
+const QUERY_SEARCH = '/search/movie';
+
+export async function fetchSearch(search) {
+  try {
+    const responce = fetch(
+      `${URL}${QUERY_SEARCH}?api_key=${API_KEY}&language=en-US&query=${search}&page=1&include_adult=false`
+    );
+    return (await responce).json();
+  } catch (error) {
+    return console.log('error :>> ', error);
+  }
+}
 
 export async function fetchTrending(page) {
   try {
@@ -32,6 +45,12 @@ async function fetchGenre() {
   } catch (error) {
     return console.log('error :>> ', error);
   }
+}
+
+getGenreBySearch();
+async function getGenreBySearch() {
+  const data = await fetchSearch();
+  return data.results;
 }
 
 let genreList;
