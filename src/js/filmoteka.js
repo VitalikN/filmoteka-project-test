@@ -1,11 +1,18 @@
-import { fetchTrending } from './themoviedb-api-service';
-import { markupTrending, markupModalFilmInfo } from './markup-service';
+import { fetchTrending, fetchSearch } from './themoviedb-api-service';
+import {
+  markupSearch,
+  markupTrending,
+  markupModalFilmInfo,
+} from './markup-service';
 
 const page = 1;
 let filmList;
 
+const formEl = document.querySelector('.form');
+
 const gallery = document.querySelector('.gallery');
 gallery.addEventListener('click', onCardClick);
+formEl.addEventListener('submit', showGallerySearchQuery);
 
 const modalFilmInfo = document.querySelector('.modal-film-info');
 
@@ -23,4 +30,13 @@ function onCardClick(event) {
   const filmBoxId = Number(filmBox.dataset.id);
   const targetFilm = filmList.find(film => film.id === filmBoxId);
   markupModalFilmInfo(targetFilm, modalFilmInfo);
+}
+
+async function showGallerySearchQuery(evt) {
+  evt.preventDefault();
+  console.log(evt.target.searchQuery.value.trim());
+  const search = evt.target.searchQuery.value.trim();
+  const data = await fetchSearch(search);
+  const searchQuery = data.results;
+  markupSearch(searchQuery, gallery);
 }
