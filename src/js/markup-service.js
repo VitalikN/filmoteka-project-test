@@ -27,6 +27,7 @@ export async function markupTrending(filmList, gallery) {
   const markup = filmList.reduce(
     (acc, { poster_path, release_date, genre_ids, id, title }) => {
       const genreString = getGenreById(genre_ids);
+
       return (acc += `<div class="film-box" data-id="${id}">
       <img class="filmoteka__img" src="${IMAGE_URL}${poster_path}"  alt="${title}">
       <p class="filmoteka__title"> ${title}</p>

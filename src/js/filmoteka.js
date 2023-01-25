@@ -9,7 +9,7 @@ const page = 1;
 let filmList;
 
 const formEl = document.querySelector('.form');
-
+const formText = document.querySelector('.form__text');
 const gallery = document.querySelector('.gallery');
 gallery.addEventListener('click', onCardClick);
 formEl.addEventListener('submit', showGallerySearchQuery);
@@ -38,5 +38,11 @@ async function showGallerySearchQuery(evt) {
   const search = evt.target.searchQuery.value.trim();
   const data = await fetchSearch(search);
   const searchQuery = data.results;
+
+  formText.classList.add('hidden');
   markupSearch(searchQuery, gallery);
+  if (!data.total_results) {
+    console.log(data.total_results);
+    formText.classList.remove('hidden');
+  }
 }

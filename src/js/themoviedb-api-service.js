@@ -41,6 +41,7 @@ export async function fetchTrending(page) {
 async function fetchGenre() {
   try {
     const responce = fetch(`${URL}${QUERY_GENRE}?api_key=${API_KEY}`);
+
     return (await responce).json();
   } catch (error) {
     return console.log('error :>> ', error);
@@ -50,6 +51,7 @@ async function fetchGenre() {
 getGenreBySearch();
 async function getGenreBySearch() {
   const data = await fetchSearch();
+
   return data.results;
 }
 
@@ -60,8 +62,13 @@ async function getGenreList() {
   genreList = data.genres;
 }
 export function getGenreById(genre_ids) {
-  return genreList
-    .filter(genre => genre_ids.includes(genre.id))
-    .map(item => item.name)
-    .join(', ');
+  const res = [];
+  for (const item of genre_ids) {
+    const genreObject = genreList.find(genre => genre.id === Number(item));
+
+    genreObject.name !== 'Science Fiction'
+      ? res.push(genreObject.name)
+      : res.push('Sci-Fi');
+  }
+  return res.length > 2 ? `${res[0]}, ${res[1]},  Other` : res.join(', ');
 }
