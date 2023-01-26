@@ -1,4 +1,8 @@
-import { fetchTrending, fetchSearch } from './themoviedb-api-service';
+import {
+  fetchTrending,
+  fetchSearch,
+  getGenreList,
+} from './themoviedb-api-service';
 import {
   markupSearch,
   markupTrending,
@@ -7,6 +11,7 @@ import {
 
 const page = 1;
 let filmList;
+let genreList;
 
 const formEl = document.querySelector('.form');
 const formText = document.querySelector('.form__text');
@@ -16,7 +21,13 @@ formEl.addEventListener('submit', showGallerySearchQuery);
 
 const modalFilmInfo = document.querySelector('.modal-film-info');
 
-showGallery();
+initGallery();
+export { genreList };
+
+async function initGallery() {
+  genreList = await getGenreList();
+  await showGallery();
+}
 
 async function showGallery() {
   const data = await fetchTrending(page);
@@ -35,14 +46,17 @@ function onCardClick(event) {
 async function showGallerySearchQuery(evt) {
   evt.preventDefault();
   console.log(evt.target.searchQuery.value.trim());
-  const search = evt.target.searchQuery.value.trim();
+  const search = evt.target.searchQuery.value.trim().toLowerCase();
   const data = await fetchSearch(search);
   const searchQuery = data.results;
 
-  formText.classList.add('hidden');
   markupSearch(searchQuery, gallery);
   if (!data.total_results) {
+    showGallery();
     console.log(data.total_results);
     formText.classList.remove('hidden');
+    return;
+  } else {
+    formText.classList.add('hidden');
   }
 }

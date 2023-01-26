@@ -1,3 +1,8 @@
+.filmoteka {
+  min-height: calc(100vh - 330px);
+}
+
+// ==============================
 .film-box {
   padding-top: 20px;
 }
@@ -27,6 +32,10 @@
   display: flex;
 }
 @media screen and (min-width: 768px) {
+  .filmoteka {
+    min-height: calc(100vh - 293px);
+  }
+
   .filmoteka__img {
     width: 336px;
     height: 455px;

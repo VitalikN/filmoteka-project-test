@@ -49,9 +49,19 @@
   outline: none;
 }
 .form__btn {
-  background-color: red;
+  position: relative;
   width: 12px;
   height: 12px;
+  background: 0 0;
+  outline: none;
+  border: none;
+}
+.fa-search {
+  position: absolute;
+  top: -22px;
+  left: -25px;
+  padding: 20px;
+  color: #ffffff;
 }
 
 .form__text {
