@@ -10,6 +10,8 @@ eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNTU1NDJlY2I2YWFiM2Q4ODlkMTY5NTNlYWM4MjkzNyIsInN
  */
 
 // const API_KEY = '1174e437242bb46ea8831e578adaacd1'
+import axios from 'axios';
+
 const API_KEY = 'e55542ecb6aab3d889d16953eac82937';
 const URL = 'https://api.themoviedb.org/3';
 const QUERY_TRENDING = '/trending/movie/week';
@@ -55,20 +57,7 @@ async function getGenreBySearch() {
   return data.results;
 }
 
-let genreList;
-getGenreList();
-async function getGenreList() {
+export async function getGenreList() {
   const data = await fetchGenre();
-  genreList = data.genres;
-}
-export function getGenreById(genre_ids) {
-  const res = [];
-  for (const item of genre_ids) {
-    const genreObject = genreList.find(genre => genre.id === Number(item));
-
-    genreObject.name !== 'Science Fiction'
-      ? res.push(genreObject.name)
-      : res.push('Sci-Fi');
-  }
-  return res.length > 2 ? `${res[0]}, ${res[1]},  Other` : res.join(', ');
+  return data.genres;
 }

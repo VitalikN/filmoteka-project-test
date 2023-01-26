@@ -1,8 +1,18 @@
-import { getGenreById } from './themoviedb-api-service';
-
+import { genreList } from './filmoteka';
 const IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
 
-//
+function getGenreById(genre_ids) {
+  const res = [];
+  for (const item of genre_ids) {
+    const genreObject = genreList.find(genre => genre.id === Number(item));
+
+    genreObject.name !== 'Science Fiction'
+      ? res.push(genreObject.name)
+      : res.push('Sci-Fi');
+  }
+  return res.length > 2 ? `${res[0]}, ${res[1]},  Other` : res.join(', ');
+}
+
 export async function markupSearch(filmList, gallery) {
   const markup = filmList.reduce(
     (acc, { poster_path, release_date, genre_ids, id, title }) => {
@@ -58,7 +68,7 @@ export async function markupModalFilmInfo(targetFilm, modalFilmInfo) {
   const markup = `<div class="film-info">
          <img  src="${IMAGE_URL}${poster_path}">
          <div class="film-info-wrapper">
-           <p>${title}</p>
+           <p>${title || original_title}</p>
            <p>Vote ${vote_average}</p>
            <p>Votes ${vote_count}</p>
            <p>Popularity ${popularity}</p>
