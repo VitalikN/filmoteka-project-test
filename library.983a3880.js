@@ -1,2 +1,0 @@
-let e;!async function(){(await async function(e){try{const t=fetch(`https://api.themoviedb.org/3/search/movie?api_key=e55542ecb6aab3d889d16953eac82937&language=en-US&query=${e}&page=1&include_adult=false`);return(await t).json()}catch(e){return console.log("error :>> ",e)}}()).results}(),async function(){const t=await async function(){try{const e=fetch("https://api.themoviedb.org/3/genre/movie/list?api_key=e55542ecb6aab3d889d16953eac82937");return(await e).json()}catch(e){return console.log("error :>> ",e)}}();e=t.genres}();
-//# sourceMappingURL=library.983a3880.js.map
