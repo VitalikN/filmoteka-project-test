@@ -12,6 +12,12 @@ function getGenreById(genre_ids) {
   }
   return res.length > 2 ? `${res[0]}, ${res[1]},  Other` : res.join(', ');
 }
+function getGenreByIdAll(genre_ids) {
+  return genreList
+    .filter(genre => genre_ids.includes(genre.id))
+    .map(item => item.name)
+    .join(', ');
+}
 
 export async function markupSearch(filmList, gallery) {
   const markup = filmList.reduce(
@@ -23,6 +29,7 @@ export async function markupSearch(filmList, gallery) {
 <div  class="filmoteka__box">
       <p class="filmoteka__text"> ${genreString}</p>
       <p class="filmoteka__text">&nbsp;|&nbsp; ${parseInt(release_date)}</p>
+     
       </div>
       </div>`);
     },
@@ -44,6 +51,7 @@ export async function markupTrending(filmList, gallery) {
 <div  class="filmoteka__box">
       <p class="filmoteka__text"> ${genreString}</p>
       <p class="filmoteka__text">&nbsp;|&nbsp; ${parseInt(release_date)}</p>
+       
       </div>
       </div>`);
     },
@@ -64,7 +72,7 @@ export async function markupModalFilmInfo(targetFilm, modalFilmInfo) {
     vote_count,
     vote_average,
   } = targetFilm;
-  const genreString = getGenreById(genre_ids);
+  const genreString = getGenreByIdAll(genre_ids);
   const markup = `<div class="film-info">
          <img  src="${IMAGE_URL}${poster_path}">
          <div class="film-info-wrapper">

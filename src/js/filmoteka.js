@@ -2,12 +2,15 @@ import {
   fetchTrending,
   fetchSearch,
   getGenreList,
+  fetchTrailers,
 } from './themoviedb-api-service';
 import {
   markupSearch,
   markupTrending,
   markupModalFilmInfo,
 } from './markup-service';
+
+import * as basicLightbox from 'basiclightbox';
 
 const page = 1;
 let filmList;
@@ -39,8 +42,27 @@ function onCardClick(event) {
   const filmBox = event.target.closest('.film-box');
   if (!filmBox) return;
   const filmBoxId = Number(filmBox.dataset.id);
+
   const targetFilm = filmList.find(film => film.id === filmBoxId);
+
   markupModalFilmInfo(targetFilm, modalFilmInfo);
+
+  onTrailerClick(filmBoxId);
+}
+
+async function onTrailerClick(movie_id) {
+  const data = await fetchTrailers(movie_id);
+  const id = data.results[0].key;
+
+  renderTrailer(id);
+}
+// onTrailerClick();
+function renderTrailer(id) {
+  const markup = `<iframe class="trailer-container" width="420" height="315" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
+  console.log(markup);
+  // let instance = basicLightbox.create(markup);
+
+  // instance.show();
 }
 
 async function showGallerySearchQuery(evt) {

@@ -12,12 +12,24 @@ eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNTU1NDJlY2I2YWFiM2Q4ODlkMTY5NTNlYWM4MjkzNyIsInN
 // const API_KEY = '1174e437242bb46ea8831e578adaacd1'
 import axios from 'axios';
 
+// ?api_key=${API_KEY}&language=en-US
 const API_KEY = 'e55542ecb6aab3d889d16953eac82937';
 const URL = 'https://api.themoviedb.org/3';
 const QUERY_TRENDING = '/trending/movie/week';
 const QUERY_GENRE = '/genre/movie/list';
 const QUERY_SEARCH = '/search/movie';
 
+// =============
+export async function fetchTrailers(movie_id) {
+  try {
+    const responce = fetch(
+      `${URL}/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`
+    );
+    return (await responce).json();
+  } catch (error) {}
+  return console.log('error :>> ', error);
+}
+// ============
 export async function fetchSearch(search) {
   try {
     const responce = fetch(
@@ -61,3 +73,9 @@ export async function getGenreList() {
   const data = await fetchGenre();
   return data.genres;
 }
+
+// export async function getfetchTrailers() {
+//   const data = await fetchTrailers();
+//   console.log(data.results);
+//   return data.results;
+// }
